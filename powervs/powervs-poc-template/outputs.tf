@@ -72,7 +72,7 @@ output "cos_instance_guid" {
 }
 
 output "cos_bucket_name" {
-  description = "Name of the COS bucket (with suffix)"
+  description = "Name of the COS bucket"
   value       = module.cos.bucket_name
 }
 

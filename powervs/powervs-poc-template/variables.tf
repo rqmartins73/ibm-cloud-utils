@@ -318,7 +318,7 @@ variable "cos_plan" {
 }
 
 variable "cos_bucket_name" {
-  description = "Name suffix for COS bucket (will be prefixed with var.prefix)"
+  description = "Name for COS bucket (will be prefixed with var.prefix)"
   type        = string
   default     = "bucket"
 }

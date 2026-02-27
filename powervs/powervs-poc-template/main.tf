@@ -230,7 +230,7 @@ module "cos" {
   bucket_name            = "${var.prefix}-${var.cos_bucket_name}"
   region                 = var.region
   bucket_storage_class   = var.cos_storage_class
-  add_bucket_name_suffix = true
+  add_bucket_name_suffix = false
   force_delete           = var.cos_force_delete
 
   # Encryption Configuration
