@@ -1,27 +1,44 @@
 # IBM i Empty LPAR Deployment on PowerVS
 
-This Terraform project deploys an **empty** IBM i LPAR (Logical Partition) on IBM Cloud PowerVS using the `VMNoStorage` deployment type.
+## ⚠️ CRITICAL: Terraform Provider Limitation
 
-## ✅ Working Solution
+**The IBM Cloud Terraform provider currently CANNOT deploy empty IBM i LPARs** due to a provider limitation with the `VMNoStorage` deployment type. The provider automatically includes license parameters in API requests, which the IBM Cloud API rejects for VMNoStorage deployments.
 
-After creating an empty IBM i VSI via the IBM Cloud GUI, a boot image `IBMI-EMPTY` is created in your workspace with a specific UUID. Use this UUID as the `image_id` in your Terraform configuration.
+### 🔴 Current Status: Terraform Deployment NOT WORKING
 
-### Steps to Get IBMI-EMPTY Image ID:
+See [`TERRAFORM_LIMITATION.md`](TERRAFORM_LIMITATION.md) for detailed technical explanation.
 
-1. **Create an empty IBM i VSI via IBM Cloud GUI** (one-time setup per workspace)
-2. **List images in your workspace**:
-   ```bash
-   ibmcloud pi images --workspace-id <your-workspace-guid>
-   ```
-3. **Find the IBMI-EMPTY image** and note its UUID (e.g., `7d0c91d7-6f49-492e-9c8d-a65094ba0e61`)
-4. **Use this UUID** in your `terraform.tfvars` as the `image_id`
+### ✅ Recommended Solution: Use IBM Cloud CLI
 
-## ⚠️ Important Restrictions
+For deploying empty IBM i LPARs, use the IBM Cloud CLI instead of Terraform:
 
-When using `VMNoStorage` deployment type:
-- **IBM i software licenses CANNOT be specified** (CSS, PowerHA, RDS)
-- License parameters are commented out in the configuration
-- Licenses can be added after the LPAR is deployed and IBM i is installed
+**See [`CLI_DEPLOYMENT.md`](CLI_DEPLOYMENT.md) for complete CLI deployment instructions.**
+
+Quick CLI example:
+```bash
+ibmcloud pi instance-create GRSCLONE \
+  --image <IBMI-EMPTY-UUID> \
+  --subnets <SUBNET-ID> \
+  --memory 8 \
+  --processors 0.25 \
+  --processor-type shared \
+  --sys-type s1022 \
+  --storage-tier tier3 \
+  --deployment-type VMNoStorage \
+  --ip-address 172.26.2.232 \
+  --key-name RQM
+```
+
+---
+
+## About This Terraform Project
+
+This directory contains Terraform configuration files that **attempt** to deploy an empty IBM i LPAR on PowerVS. However, due to the provider limitation described above, **these files will not work** for VMNoStorage deployments.
+
+The Terraform configuration is kept here for:
+1. Documentation purposes
+2. Future use when the provider is fixed
+3. Reference for other PowerVS deployments that DO work with Terraform
 
 ## Overview
 

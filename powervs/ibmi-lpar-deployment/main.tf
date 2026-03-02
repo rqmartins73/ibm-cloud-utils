@@ -15,7 +15,7 @@ terraform {
   required_providers {
     ibm = {
       source  = "IBM-Cloud/ibm"
-      version = "~> 1.70"
+      version = ">= 1.71.0"
     }
   }
 }
@@ -111,11 +111,10 @@ resource "ibm_pi_instance" "ibmi_lpar" {
   pi_storage_pool = var.storage_pool
 
   # IBM i License Configuration
-  # NOTE: Licenses MUST be explicitly disabled for VMNoStorage deployment type
-  # The Terraform provider includes these attributes by default, so we must set them to disabled values
-  pi_ibmi_css = false
-  pi_ibmi_pha = false
-  pi_ibmi_rds_users = 0
+  # NOTE: License parameters CANNOT be used with VMNoStorage deployment type
+  # The IBM Cloud API rejects ANY license parameters when deploying without storage
+  # These parameters must be completely omitted from the resource block
+  # Licenses can be added post-deployment using IBM Cloud CLI or GUI
 
   # Health Status
   pi_health_status = "OK"
