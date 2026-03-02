@@ -87,8 +87,10 @@ resource "ibm_pi_instance" "ibmi_lpar" {
   pi_proc_type         = var.proc_type
   pi_sys_type          = var.sys_type
 
-  # Image Configuration - IBM i stock image
-  # Note: image_id must be provided as there's no reliable way to auto-select IBM i images
+  # Deployment Type - VMNoStorage for empty LPAR
+  pi_deployment_type = "VMNoStorage"
+
+  # Image Configuration - IBMI-EMPTY for empty LPAR
   pi_image_id = var.image_id
 
   # Network Configuration

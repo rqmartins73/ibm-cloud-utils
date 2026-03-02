@@ -102,10 +102,11 @@ storage_pool = ""
 # IBM i Image Configuration (Optional)
 ##############################################################################
 
-# IBM i stock image ID (required)
-# To list available images, use: ibmcloud pi images --workspace-id <workspace-guid>
+# IBM i image ID
+# Default: "IBMI-EMPTY" for empty LPAR (no OS installed)
+# For stock images, use UUID from: ibmcloud pi images --workspace-id <workspace-guid>
 # Example: image_id = "12345678-1234-1234-1234-123456789abc"
-image_id = "YOUR_IBM_i_IMAGE_ID_HERE"
+image_id = "IBMI-EMPTY"
 
 ##############################################################################
 # IBM i License Configuration (Optional)

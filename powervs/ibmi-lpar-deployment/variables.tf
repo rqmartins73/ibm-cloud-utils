@@ -194,12 +194,13 @@ variable "storage_pool" {
 ##############################################################################
 
 variable "image_id" {
-  description = "ID of the IBM i stock image to use (required - use 'ibmcloud pi images' to list available images)"
+  description = "IBM i image ID. Use 'IBMI-EMPTY' for empty LPAR (default), or specify a stock image UUID from 'ibmcloud pi images --workspace-id <guid>'."
   type        = string
+  default     = "IBMI-EMPTY"
   
   validation {
-    condition     = var.image_id != null && var.image_id != ""
-    error_message = "Image ID is required. Use 'ibmcloud pi images --workspace-id <workspace-guid>' to list available IBM i images."
+    condition     = var.image_id == "IBMI-EMPTY" || can(regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", var.image_id))
+    error_message = "Image ID must be 'IBMI-EMPTY' for empty LPAR or a valid UUID for stock images."
   }
 }
 
