@@ -1,6 +1,30 @@
 # IBM i Empty LPAR Deployment on PowerVS
 
-This Terraform project deploys an **empty** IBM i LPAR (Logical Partition) on IBM Cloud PowerVS. By default, it creates an empty LPAR without an operating system installed, using the `IBMI-EMPTY` image and `VMNoStorage` deployment type. This provides a simple, configurable way to provision IBM i instances with customizable compute, memory, storage, and licensing options.
+This Terraform project deploys an **empty** IBM i LPAR (Logical Partition) on IBM Cloud PowerVS using the `VMNoStorage` deployment type.
+
+## ⚠️ Important Limitation
+
+**The IBM Cloud Terraform provider (v1.89.0) does not fully support the `VMNoStorage` deployment type with special image names like `IBMI-EMPTY`.** The provider validates image IDs against the workspace catalog before creating the instance, which causes the deployment to fail.
+
+### Workaround Options:
+
+1. **Use IBM Cloud CLI** instead of Terraform for empty LPAR creation:
+   ```bash
+   ibmcloud pi instance-create <instance-name> \
+     --image IBMI-EMPTY \
+     --deployment-type VMNoStorage \
+     --processors 2 \
+     --memory 16 \
+     --network <network-id> \
+     --key-name <ssh-key-name>
+   ```
+
+2. **Use a stock IBM i image** from your workspace catalog:
+   - List available images: `ibmcloud pi images --workspace-id <guid>`
+   - Use the actual image ID in `terraform.tfvars`
+   - This will create an LPAR with IBM i pre-installed
+
+This Terraform configuration is provided as a template that can be adapted once the provider adds full support for `VMNoStorage` deployment.
 
 ## Overview
 
