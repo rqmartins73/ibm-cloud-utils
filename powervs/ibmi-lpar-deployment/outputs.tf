@@ -95,25 +95,10 @@ output "instance_storage_pool" {
 # License Outputs
 ##############################################################################
 
-output "license_repository_capacity" {
-  description = "IBM i License Repository Capacity in TB"
-  value       = ibm_pi_instance.ibmi_lpar.pi_license_repository_capacity
-}
-
-output "cloud_storage_license_enabled" {
-  description = "Whether IBM i Cloud Storage Solution license is enabled"
-  value       = ibm_pi_instance.ibmi_lpar.pi_ibmi_css
-}
-
-output "power_ha_license_enabled" {
-  description = "Whether IBM i PowerHA license is enabled"
-  value       = ibm_pi_instance.ibmi_lpar.pi_ibmi_pha
-}
-
-output "rational_dev_studio_users" {
-  description = "Number of IBM i Rational Development Studio users enabled"
-  value       = ibm_pi_instance.ibmi_lpar.pi_ibmi_rds_users
-}
+# NOTE: License outputs removed for VMNoStorage deployment
+# Licenses cannot be queried during initial deployment
+# Check licenses after IBM i installation using:
+# ibmcloud pi instance <instance-name> --json
 
 ##############################################################################
 # Workspace Outputs

@@ -208,45 +208,11 @@ variable "image_id" {
 # IBM i License Variables
 ##############################################################################
 
-variable "license_repository_capacity" {
-  description = "IBM i License Repository Capacity in TB (0 to disable)"
-  type        = number
-  default     = 0
-
-  validation {
-    condition     = var.license_repository_capacity >= 0
-    error_message = "License repository capacity must be 0 or greater."
-  }
-}
-
-variable "enable_cloud_storage_license" {
-  description = "Enable IBM i Cloud Storage Solution (CSS) license during instance creation"
-  type        = bool
-  default     = false
-}
-
-variable "enable_power_ha_license" {
-  description = "Enable IBM i PowerHA license during instance creation"
-  type        = bool
-  default     = false
-}
-
-variable "enable_rational_dev_studio_license" {
-  description = "Enable IBM i Rational Development Studio (RDS) license during instance creation"
-  type        = bool
-  default     = false
-}
-
-variable "rational_dev_studio_users" {
-  description = "Number of IBM i Rational Development Studio (RDS) users (only used if enable_rational_dev_studio_license is true)"
-  type        = number
-  default     = 1
-
-  validation {
-    condition     = var.rational_dev_studio_users >= 0
-    error_message = "Number of RDS users must be 0 or greater."
-  }
-}
+# NOTE: License variables are removed for VMNoStorage deployment
+# IBM Cloud API does not allow licenses with VMNoStorage deployment type
+# Licenses must be added after LPAR creation and IBM i installation using:
+# - IBM Cloud CLI: ibmcloud pi instance-update <name> --ibmi-css true
+# - IBM Cloud API: PATCH /pcloud/v1/cloud-instances/{cloud_instance_id}/pvm-instances/{pvm_instance_id}
 
 ##############################################################################
 # Optional Variables
