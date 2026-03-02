@@ -69,14 +69,6 @@ data "ibm_pi_key" "ssh_key" {
   pi_key_name          = var.ssh_key_name
 }
 
-# Get image details - supports both stock images (UUID) and empty images (name lookup)
-data "ibm_pi_image" "image" {
-  provider = ibm.powervs
-  
-  pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace.guid
-  pi_image_name        = var.image_id
-}
-
 ##############################################################################
 # IBM i LPAR Instance
 ##############################################################################
@@ -95,8 +87,10 @@ resource "ibm_pi_instance" "ibmi_lpar" {
   # Deployment Type - VMNoStorage for empty LPAR
   pi_deployment_type = "VMNoStorage"
 
-  # Image Configuration - Use image ID from data source lookup
-  pi_image_id = data.ibm_pi_image.image.id
+  # Image Configuration
+  # For VMNoStorage deployment, use special image names like "IBMI-EMPTY"
+  # For stock images, provide the actual image ID from your workspace
+  pi_image_id = var.image_id
 
   # Network Configuration
   pi_network {
