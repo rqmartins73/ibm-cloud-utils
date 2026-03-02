@@ -88,9 +88,14 @@ resource "ibm_pi_instance" "ibmi_lpar" {
   pi_deployment_type = "VMNoStorage"
 
   # Image Configuration
-  # For VMNoStorage deployment, use special image names like "IBMI-EMPTY"
-  # For stock images, provide the actual image ID from your workspace
+  # When using VMNoStorage, the image_id is passed directly to the API
+  # Use "IBMI-EMPTY" for empty IBM i LPAR
   pi_image_id = var.image_id
+  
+  # Prevent Terraform from validating the image before creation
+  lifecycle {
+    ignore_changes = [pi_image_id]
+  }
 
   # Network Configuration
   pi_network {
