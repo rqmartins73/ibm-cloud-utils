@@ -214,9 +214,34 @@ variable "license_repository_capacity" {
   }
 }
 
-# Note: IBM i licenses (CSS, PowerHA, RDS) must be enabled after deployment
-# using the IBM Cloud CLI or PowerVS console. Terraform does not currently
-# support enabling these licenses during initial deployment.
+variable "enable_cloud_storage_license" {
+  description = "Enable IBM i Cloud Storage Solution (CSS) license during instance creation"
+  type        = bool
+  default     = false
+}
+
+variable "enable_power_ha_license" {
+  description = "Enable IBM i PowerHA license during instance creation"
+  type        = bool
+  default     = false
+}
+
+variable "enable_rational_dev_studio_license" {
+  description = "Enable IBM i Rational Development Studio (RDS) license during instance creation"
+  type        = bool
+  default     = false
+}
+
+variable "rational_dev_studio_users" {
+  description = "Number of IBM i Rational Development Studio (RDS) users (only used if enable_rational_dev_studio_license is true)"
+  type        = number
+  default     = 1
+
+  validation {
+    condition     = var.rational_dev_studio_users >= 0
+    error_message = "Number of RDS users must be 0 or greater."
+  }
+}
 
 ##############################################################################
 # Optional Variables
@@ -266,6 +291,7 @@ variable "pin_policy" {
 # - enable_cloud_storage_license: CSS license (default: false)
 # - enable_power_ha_license: PowerHA license (default: false)
 # - enable_rational_dev_studio_license: RDS license (default: false)
+# - rational_dev_studio_users: Number of RDS users (default: 1)
 # - user_data: First boot script (default: empty)
 # - pin_policy: Pin policy (default: none)
 #

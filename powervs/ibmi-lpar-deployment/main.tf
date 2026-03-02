@@ -103,6 +103,11 @@ resource "ibm_pi_instance" "ibmi_lpar" {
 
   # IBM i License Configuration
   pi_license_repository_capacity = var.license_repository_capacity
+  
+  # IBM i Software Licenses (optional)
+  pi_ibmi_css = var.enable_cloud_storage_license
+  pi_ibmi_pha = var.enable_power_ha_license
+  pi_ibmi_rds_users = var.enable_rational_dev_studio_license ? var.rational_dev_studio_users : 0
 
   # Health Status
   pi_health_status = "OK"
@@ -121,25 +126,21 @@ resource "ibm_pi_instance" "ibmi_lpar" {
 }
 
 ##############################################################################
-# IBM i License Notes
+# IBM i License Information
 ##############################################################################
 #
-# IBM i licenses are managed through the PowerVS console or IBM Cloud CLI.
-# The following licenses are available for IBM i LPARs:
+# IBM i licenses can be enabled during instance creation using the parameters:
+# - pi_ibmi_css: IBM i Cloud Storage Solution license (true/false)
+# - pi_ibmi_pha: IBM i PowerHA license (true/false)
+# - pi_ibmi_rds_users: Number of IBM i Rational Development Studio users (0-N)
 #
-# 1. IBM i Cloud Storage Solution (CSS)
-# 2. IBM i PowerHA
-# 3. IBM i Rational Development Studio (RDS)
-#
-# To enable licenses after deployment, use the IBM Cloud CLI:
+# These licenses can also be modified after deployment using IBM Cloud CLI:
 #
 # ibmcloud pi instance-update <instance-id> \
 #   --cloud-instance-id <workspace-guid> \
-#   --ibmi-css true \
-#   --ibmi-pha true \
-#   --ibmi-rds true
-#
-# Or use the PowerVS console to enable licenses through the UI.
+#   --IBMiCSS-license \
+#   --IBMiPHA-license \
+#   --IBMiRDS-users 5
 #
 # Note: License costs are separate from compute costs and are billed monthly.
 ##############################################################################
