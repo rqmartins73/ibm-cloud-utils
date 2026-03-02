@@ -85,9 +85,8 @@ Before deploying, ensure you have:
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `license_repository_capacity` | License repo capacity (TB) | `0` |
-| `enable_cloud_storage_license` | Enable CSS license | `false` |
-| `enable_power_ha_license` | Enable PowerHA license | `false` |
-| `enable_rational_dev_studio_license` | Enable RDS license | `false` |
+
+**Note:** IBM i licenses (Cloud Storage Solution, PowerHA, Rational Dev Studio) must be enabled after deployment using IBM Cloud CLI or PowerVS console. See the "IBM i Licenses" section below.
 
 ## Machine Types
 
@@ -210,7 +209,7 @@ proc_type     = "dedicated"
 sys_type      = "e1080"
 storage_type  = "tier1"
 enable_cloud_storage_license = true
-enable_power_ha_license      = true
+# Note: Enable PowerHA license post-deployment via IBM Cloud CLI
 enable_rational_dev_studio_license = true
 ```
 

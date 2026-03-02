@@ -214,23 +214,9 @@ variable "license_repository_capacity" {
   }
 }
 
-variable "enable_cloud_storage_license" {
-  description = "Enable IBM i Cloud Storage Solution (CSS) license"
-  type        = bool
-  default     = false
-}
-
-variable "enable_power_ha_license" {
-  description = "Enable IBM i PowerHA license"
-  type        = bool
-  default     = false
-}
-
-variable "enable_rational_dev_studio_license" {
-  description = "Enable IBM i Rational Development Studio (RDS) license"
-  type        = bool
-  default     = false
-}
+# Note: IBM i licenses (CSS, PowerHA, RDS) must be enabled after deployment
+# using the IBM Cloud CLI or PowerVS console. Terraform does not currently
+# support enabling these licenses during initial deployment.
 
 ##############################################################################
 # Optional Variables

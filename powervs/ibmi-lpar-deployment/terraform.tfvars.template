@@ -114,17 +114,16 @@ image_id = null
 # This is used for storing licensed program products
 license_repository_capacity = 0
 
-# Enable IBM i Cloud Storage Solution (CSS) license
-# Provides cloud-based storage capabilities for IBM i
-enable_cloud_storage_license = false
-
-# Enable IBM i PowerHA license
-# Provides high availability and disaster recovery capabilities
-enable_power_ha_license = false
-
-# Enable IBM i Rational Development Studio (RDS) license
-# Provides modern development tools for IBM i
-enable_rational_dev_studio_license = false
+# Note: IBM i licenses (CSS, PowerHA, RDS) must be enabled after deployment
+# using the IBM Cloud CLI or PowerVS console. Terraform does not currently
+# support enabling these licenses during initial deployment.
+#
+# To enable licenses after deployment, use:
+# ibmcloud pi instance-update <instance-id> \
+#   --cloud-instance-id <workspace-guid> \
+#   --ibmi-css true \
+#   --ibmi-pha true \
+#   --ibmi-rds true
 
 ##############################################################################
 # Optional Configuration

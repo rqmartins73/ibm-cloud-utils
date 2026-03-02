@@ -100,20 +100,7 @@ output "license_repository_capacity" {
   value       = ibm_pi_instance.ibmi_lpar.pi_license_repository_capacity
 }
 
-output "cloud_storage_license_enabled" {
-  description = "Whether IBM i Cloud Storage Solution license is enabled"
-  value       = var.enable_cloud_storage_license
-}
-
-output "power_ha_license_enabled" {
-  description = "Whether IBM i PowerHA license is enabled"
-  value       = var.enable_power_ha_license
-}
-
-output "rational_dev_studio_license_enabled" {
-  description = "Whether IBM i Rational Development Studio license is enabled"
-  value       = var.enable_rational_dev_studio_license
-}
+# Note: IBM i licenses must be enabled post-deployment using IBM Cloud CLI or console
 
 ##############################################################################
 # Workspace Outputs
@@ -168,11 +155,7 @@ output "deployment_summary" {
     region           = var.region
     status           = ibm_pi_instance.ibmi_lpar.status
     health_status    = ibm_pi_instance.ibmi_lpar.health_status
-    licenses_enabled = {
-      cloud_storage_solution = var.enable_cloud_storage_license
-      power_ha               = var.enable_power_ha_license
-      rational_dev_studio    = var.enable_rational_dev_studio_license
-    }
+    note_licenses = "IBM i licenses (CSS, PowerHA, RDS) must be enabled post-deployment via IBM Cloud CLI or console"
   }
 }
 

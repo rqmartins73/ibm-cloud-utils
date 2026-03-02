@@ -95,7 +95,7 @@ resource "ibm_pi_instance" "ibmi_lpar" {
   }
 
   # SSH Key
-  pi_key_pair_name = data.ibm_pi_key.ssh_key.pi_key_name
+  pi_key_pair_name = data.ibm_pi_key.ssh_key.name
 
   # Storage Configuration
   pi_storage_type = var.storage_type
@@ -121,41 +121,25 @@ resource "ibm_pi_instance" "ibmi_lpar" {
 }
 
 ##############################################################################
-# IBM i License Assignments (Optional)
+# IBM i License Notes
 ##############################################################################
-
-# IBM i Cloud Storage Solution License
-resource "ibm_pi_instance_action" "license_cloud_storage" {
-  count = var.enable_cloud_storage_license ? 1 : 0
-
-  pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace.guid
-  pi_instance_id       = ibm_pi_instance.ibmi_lpar.instance_id
-  pi_action            = "ibmi-css"
-  pi_health_status     = "OK"
-
-  depends_on = [ibm_pi_instance.ibmi_lpar]
-}
-
-# IBM i Power HA License
-resource "ibm_pi_instance_action" "license_power_ha" {
-  count = var.enable_power_ha_license ? 1 : 0
-
-  pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace.guid
-  pi_instance_id       = ibm_pi_instance.ibmi_lpar.instance_id
-  pi_action            = "ibmi-pha"
-  pi_health_status     = "OK"
-
-  depends_on = [ibm_pi_instance.ibmi_lpar]
-}
-
-# IBM i Rational Dev Studio License
-resource "ibm_pi_instance_action" "license_rational_dev_studio" {
-  count = var.enable_rational_dev_studio_license ? 1 : 0
-
-  pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace.guid
-  pi_instance_id       = ibm_pi_instance.ibmi_lpar.instance_id
-  pi_action            = "ibmi-rds"
-  pi_health_status     = "OK"
-
-  depends_on = [ibm_pi_instance.ibmi_lpar]
-}
+#
+# IBM i licenses are managed through the PowerVS console or IBM Cloud CLI.
+# The following licenses are available for IBM i LPARs:
+#
+# 1. IBM i Cloud Storage Solution (CSS)
+# 2. IBM i PowerHA
+# 3. IBM i Rational Development Studio (RDS)
+#
+# To enable licenses after deployment, use the IBM Cloud CLI:
+#
+# ibmcloud pi instance-update <instance-id> \
+#   --cloud-instance-id <workspace-guid> \
+#   --ibmi-css true \
+#   --ibmi-pha true \
+#   --ibmi-rds true
+#
+# Or use the PowerVS console to enable licenses through the UI.
+#
+# Note: License costs are separate from compute costs and are billed monthly.
+##############################################################################
