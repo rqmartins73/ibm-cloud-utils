@@ -1,0 +1,204 @@
+##############################################################################
+# IBM i LPAR Deployment - Terraform Variables Template
+#
+# Instructions:
+# 1. Copy this file to terraform.tfvars
+# 2. Fill in all required values
+# 3. Customize optional values as needed
+# 4. Never commit terraform.tfvars to version control (contains sensitive data)
+##############################################################################
+
+##############################################################################
+# IBM Cloud Authentication (Required)
+##############################################################################
+
+# IBM Cloud API Key
+# Get your API key from: https://cloud.ibm.com/iam/apikeys
+ibmcloud_api_key = "YOUR_IBM_CLOUD_API_KEY_HERE"
+
+##############################################################################
+# Global Configuration (Required)
+##############################################################################
+
+# IBM Cloud region where your PowerVS workspace is located
+# Examples: "us-south", "us-east", "eu-de", "eu-es", "jp-tok"
+region = "eu-es"
+
+# PowerVS zone where your workspace is located
+# Examples: "mad02", "mad04", "dal10", "dal12", "wdc04", "lon04", "eu-de-1"
+powervs_zone = "mad02"
+
+# Name of the IBM Cloud resource group containing your PowerVS workspace
+resource_group_name = "Default"
+
+##############################################################################
+# PowerVS Workspace Configuration (Required)
+##############################################################################
+
+# Name of your existing PowerVS workspace
+# This workspace must already exist with configured subnets
+powervs_workspace_name = "my-powervs-workspace"
+
+# Name of the SSH key registered in your PowerVS workspace
+# This SSH key must already be registered in the workspace
+ssh_key_name = "my-ssh-key"
+
+##############################################################################
+# Network Configuration (Required)
+##############################################################################
+
+# Name of the PowerVS private subnet to attach the IBM i LPAR to
+# This subnet must already exist in your PowerVS workspace
+subnet_name = "pvs-subnet-1"
+
+# Static IP address for the IBM i LPAR (optional)
+# Leave empty ("") for DHCP assignment
+# Example: "192.168.100.10"
+ip_address = ""
+
+##############################################################################
+# IBM i LPAR Configuration (Required)
+##############################################################################
+
+# Name for your IBM i LPAR instance
+# Must be 1-63 characters, letters, numbers, and hyphens only
+instance_name = "ibmi-lpar-01"
+
+# Number of processor cores (0.25 to 32)
+# Examples: 0.5, 1, 2, 4, 8
+processors = 2
+
+# Memory in GB (2 to 934)
+# Examples: 8, 16, 32, 64, 128
+memory = 16
+
+# Processor type: "shared" or "dedicated"
+# - shared: Uses shared processor pool (cost-effective)
+# - dedicated: Uses dedicated processors (better performance)
+proc_type = "shared"
+
+# Machine type (system model)
+# Options:
+#   - "s922": Power9 - 2-socket system
+#   - "e980": Power9 - 4-socket system (high-end)
+#   - "s1022": Power10 - 2-socket system
+#   - "e1080": Power10 - 4-socket system (high-end)
+sys_type = "s922"
+
+##############################################################################
+# Storage Configuration (Optional)
+##############################################################################
+
+# Storage tier
+# Options:
+#   - "tier1": NVMe-based flash storage (high performance, higher cost)
+#   - "tier3": SSD flash storage (standard performance, lower cost)
+storage_type = "tier3"
+
+# Storage pool name (leave empty to use default pool for the storage type)
+storage_pool = ""
+
+##############################################################################
+# IBM i Image Configuration (Optional)
+##############################################################################
+
+# IBM i stock image ID (leave empty to use the first available IBM i image)
+# To list available images, use: ibmcloud pi images --json
+image_id = null
+
+##############################################################################
+# IBM i License Configuration (Optional)
+##############################################################################
+
+# IBM i License Repository Capacity in TB (0 to disable)
+# This is used for storing licensed program products
+license_repository_capacity = 0
+
+# Enable IBM i Cloud Storage Solution (CSS) license
+# Provides cloud-based storage capabilities for IBM i
+enable_cloud_storage_license = false
+
+# Enable IBM i PowerHA license
+# Provides high availability and disaster recovery capabilities
+enable_power_ha_license = false
+
+# Enable IBM i Rational Development Studio (RDS) license
+# Provides modern development tools for IBM i
+enable_rational_dev_studio_license = false
+
+##############################################################################
+# Optional Configuration
+##############################################################################
+
+# User data script to run on first boot (optional)
+# Example: Cloud-init script or custom initialization commands
+user_data = ""
+
+# Pin policy for the instance
+# Options:
+#   - "none": No pinning (default)
+#   - "soft": Soft pinning (preferred but not required)
+#   - "hard": Hard pinning (required)
+pin_policy = "none"
+
+##############################################################################
+# Example Configurations
+##############################################################################
+
+# Example 1: Small Development IBM i LPAR
+# instance_name = "ibmi-dev"
+# processors = 0.5
+# memory = 8
+# proc_type = "shared"
+# sys_type = "s922"
+# storage_type = "tier3"
+
+# Example 2: Medium Production IBM i LPAR
+# instance_name = "ibmi-prod"
+# processors = 4
+# memory = 32
+# proc_type = "shared"
+# sys_type = "s1022"
+# storage_type = "tier1"
+# enable_power_ha_license = true
+
+# Example 3: Large High-Performance IBM i LPAR
+# instance_name = "ibmi-enterprise"
+# processors = 16
+# memory = 128
+# proc_type = "dedicated"
+# sys_type = "e1080"
+# storage_type = "tier1"
+# enable_cloud_storage_license = true
+# enable_power_ha_license = true
+# enable_rational_dev_studio_license = true
+
+##############################################################################
+# Notes
+##############################################################################
+#
+# 1. Prerequisites:
+#    - PowerVS workspace must exist
+#    - At least one private subnet must be configured
+#    - SSH key must be registered in the workspace
+#
+# 2. IBM i Licenses:
+#    - Base IBM i license is included with the instance
+#    - Additional licenses (CSS, PowerHA, RDS) are optional
+#    - License costs are separate from compute costs
+#
+# 3. Sizing Guidelines:
+#    - Development: 0.5-2 cores, 8-16 GB RAM
+#    - Test/QA: 2-4 cores, 16-32 GB RAM
+#    - Production: 4-16 cores, 32-128 GB RAM
+#    - Enterprise: 16+ cores, 128+ GB RAM
+#
+# 4. Storage Tiers:
+#    - Tier1 (NVMe): Best for production workloads requiring high IOPS
+#    - Tier3 (SSD): Good for development and test environments
+#
+# 5. Machine Types:
+#    - Power9 (s922, e980): Mature, well-tested platform
+#    - Power10 (s1022, e1080): Latest generation, better performance
+#
+##############################################################################
