@@ -103,10 +103,13 @@ storage_pool = ""
 ##############################################################################
 
 # IBM i image ID
-# Default: "IBMI-EMPTY" for empty LPAR (no OS installed)
-# For stock images, use UUID from: ibmcloud pi images --workspace-id <workspace-guid>
-# Example: image_id = "12345678-1234-1234-1234-123456789abc"
-image_id = "IBMI-EMPTY"
+# IMPORTANT: Use the UUID of the IBMI-EMPTY image from your workspace
+# To get this ID:
+# 1. Create an empty IBM i VSI via IBM Cloud GUI (one-time per workspace)
+# 2. Run: ibmcloud pi images --workspace-id <workspace-guid>
+# 3. Find IBMI-EMPTY and copy its UUID
+# Example: image_id = "7d0c91d7-6f49-492e-9c8d-a65094ba0e61"
+image_id = "YOUR_IBMI_EMPTY_IMAGE_UUID_HERE"
 
 ##############################################################################
 # IBM i License Configuration (Optional)

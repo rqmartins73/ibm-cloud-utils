@@ -2,29 +2,26 @@
 
 This Terraform project deploys an **empty** IBM i LPAR (Logical Partition) on IBM Cloud PowerVS using the `VMNoStorage` deployment type.
 
-## ⚠️ Important Limitation
+## ✅ Working Solution
 
-**The IBM Cloud Terraform provider (v1.89.0) does not fully support the `VMNoStorage` deployment type with special image names like `IBMI-EMPTY`.** The provider validates image IDs against the workspace catalog before creating the instance, which causes the deployment to fail.
+After creating an empty IBM i VSI via the IBM Cloud GUI, a boot image `IBMI-EMPTY` is created in your workspace with a specific UUID. Use this UUID as the `image_id` in your Terraform configuration.
 
-### Workaround Options:
+### Steps to Get IBMI-EMPTY Image ID:
 
-1. **Use IBM Cloud CLI** instead of Terraform for empty LPAR creation:
+1. **Create an empty IBM i VSI via IBM Cloud GUI** (one-time setup per workspace)
+2. **List images in your workspace**:
    ```bash
-   ibmcloud pi instance-create <instance-name> \
-     --image IBMI-EMPTY \
-     --deployment-type VMNoStorage \
-     --processors 2 \
-     --memory 16 \
-     --network <network-id> \
-     --key-name <ssh-key-name>
+   ibmcloud pi images --workspace-id <your-workspace-guid>
    ```
+3. **Find the IBMI-EMPTY image** and note its UUID (e.g., `7d0c91d7-6f49-492e-9c8d-a65094ba0e61`)
+4. **Use this UUID** in your `terraform.tfvars` as the `image_id`
 
-2. **Use a stock IBM i image** from your workspace catalog:
-   - List available images: `ibmcloud pi images --workspace-id <guid>`
-   - Use the actual image ID in `terraform.tfvars`
-   - This will create an LPAR with IBM i pre-installed
+## ⚠️ Important Restrictions
 
-This Terraform configuration is provided as a template that can be adapted once the provider adds full support for `VMNoStorage` deployment.
+When using `VMNoStorage` deployment type:
+- **IBM i software licenses CANNOT be specified** (CSS, PowerHA, RDS)
+- License parameters are commented out in the configuration
+- Licenses can be added after the LPAR is deployed and IBM i is installed
 
 ## Overview
 
