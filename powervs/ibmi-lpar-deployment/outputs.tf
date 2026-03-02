@@ -153,11 +153,6 @@ output "deployment_summary" {
     region           = var.region
     status           = ibm_pi_instance.ibmi_lpar.status
     health_status    = ibm_pi_instance.ibmi_lpar.health_status
-    licenses = {
-      cloud_storage_solution = ibm_pi_instance.ibmi_lpar.pi_ibmi_css
-      power_ha               = ibm_pi_instance.ibmi_lpar.pi_ibmi_pha
-      rational_dev_studio_users = ibm_pi_instance.ibmi_lpar.pi_ibmi_rds_users
-    }
   }
 }
 
