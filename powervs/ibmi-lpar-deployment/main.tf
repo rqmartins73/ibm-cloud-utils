@@ -111,13 +111,11 @@ resource "ibm_pi_instance" "ibmi_lpar" {
   pi_storage_pool = var.storage_pool
 
   # IBM i License Configuration
-  # NOTE: Licenses cannot be specified with VMNoStorage deployment type
-  # These will be commented out for empty LPAR deployment
-  # Uncomment and configure if using a stock image instead
-  # pi_license_repository_capacity = var.license_repository_capacity
-  # pi_ibmi_css = var.enable_cloud_storage_license
-  # pi_ibmi_pha = var.enable_power_ha_license
-  # pi_ibmi_rds_users = var.enable_rational_dev_studio_license ? var.rational_dev_studio_users : 0
+  # NOTE: Licenses MUST be explicitly disabled for VMNoStorage deployment type
+  # The Terraform provider includes these attributes by default, so we must set them to disabled values
+  pi_ibmi_css = false
+  pi_ibmi_pha = false
+  pi_ibmi_rds_users = 0
 
   # Health Status
   pi_health_status = "OK"
