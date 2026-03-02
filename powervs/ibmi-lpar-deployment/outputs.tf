@@ -45,7 +45,7 @@ output "instance_network_id" {
 
 output "subnet_name" {
   description = "Name of the subnet attached to the IBM i LPAR"
-  value       = data.ibm_pi_network.subnet.pi_network_name
+  value       = data.ibm_pi_network.subnet.name
 }
 
 output "subnet_cidr" {

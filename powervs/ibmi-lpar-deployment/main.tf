@@ -55,18 +55,24 @@ data "ibm_resource_group" "resource_group" {
 
 # Get PowerVS subnet details
 data "ibm_pi_network" "subnet" {
+  provider = ibm.powervs
+  
   pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace.guid
   pi_network_name      = var.subnet_name
 }
 
 # Get PowerVS SSH key
 data "ibm_pi_key" "ssh_key" {
+  provider = ibm.powervs
+  
   pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace.guid
   pi_key_name          = var.ssh_key_name
 }
 
 # Get available IBM i images
 data "ibm_pi_images" "ibmi_images" {
+  provider = ibm.powervs
+  
   pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace.guid
 }
 
