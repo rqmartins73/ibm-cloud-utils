@@ -115,10 +115,6 @@ image_id = "YOUR_IBMI_EMPTY_IMAGE_UUID_HERE"
 # IBM i License Configuration (Optional)
 ##############################################################################
 
-# IBM i License Repository Capacity in TB (0 to disable)
-# This is used for storing licensed program products
-license_repository_capacity = 0
-
 # Enable IBM i Cloud Storage Solution (CSS) license
 # Provides cloud-based storage capabilities for IBM i
 enable_cloud_storage_license = false
@@ -132,7 +128,7 @@ enable_power_ha_license = false
 enable_rational_dev_studio_license = false
 
 # Number of IBM i Rational Development Studio users (only used if RDS license is enabled)
-rational_dev_studio_users = 1
+rational_dev_studio_users = 0
 
 ##############################################################################
 # Optional Configuration

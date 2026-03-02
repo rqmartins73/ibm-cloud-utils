@@ -95,10 +95,20 @@ output "instance_storage_pool" {
 # License Outputs
 ##############################################################################
 
-# NOTE: License outputs removed for VMNoStorage deployment
-# Licenses cannot be queried during initial deployment
-# Check licenses after IBM i installation using:
-# ibmcloud pi instance <instance-name> --json
+output "ibmi_css_license" {
+  description = "IBM i Cloud Storage Solution license status"
+  value       = ibm_pi_instance.ibmi_lpar.pi_ibmi_css
+}
+
+output "ibmi_pha_license" {
+  description = "IBM i PowerHA license status"
+  value       = ibm_pi_instance.ibmi_lpar.pi_ibmi_pha
+}
+
+output "ibmi_rds_users" {
+  description = "Number of IBM i Rational Development Studio users"
+  value       = ibm_pi_instance.ibmi_lpar.pi_ibmi_rds_users
+}
 
 ##############################################################################
 # Workspace Outputs
@@ -153,6 +163,11 @@ output "deployment_summary" {
     region           = var.region
     status           = ibm_pi_instance.ibmi_lpar.status
     health_status    = ibm_pi_instance.ibmi_lpar.health_status
+    licenses = {
+      css       = ibm_pi_instance.ibmi_lpar.pi_ibmi_css
+      pha       = ibm_pi_instance.ibmi_lpar.pi_ibmi_pha
+      rds_users = ibm_pi_instance.ibmi_lpar.pi_ibmi_rds_users
+    }
   }
 }
 

@@ -84,12 +84,8 @@ resource "ibm_pi_instance" "ibmi_lpar" {
   pi_proc_type         = var.proc_type
   pi_sys_type          = var.sys_type
 
-  # Deployment Type - VMNoStorage for empty LPAR
-  pi_deployment_type = "VMNoStorage"
-
   # Image Configuration
-  # When using VMNoStorage, the image_id is passed directly to the API
-  # Use "IBMI-EMPTY" for empty IBM i LPAR
+  # Use IBMI-EMPTY UUID for empty IBM i LPAR
   pi_image_id = var.image_id
   
   # Prevent Terraform from validating the image before creation
@@ -111,10 +107,9 @@ resource "ibm_pi_instance" "ibmi_lpar" {
   pi_storage_pool = var.storage_pool
 
   # IBM i License Configuration
-  # NOTE: License parameters CANNOT be used with VMNoStorage deployment type
-  # The IBM Cloud API rejects ANY license parameters when deploying without storage
-  # These parameters must be completely omitted from the resource block
-  # Licenses can be added post-deployment using IBM Cloud CLI or GUI
+  pi_ibmi_css       = var.enable_cloud_storage_license
+  pi_ibmi_pha       = var.enable_power_ha_license
+  pi_ibmi_rds_users = var.enable_rational_dev_studio_license ? var.rational_dev_studio_users : 0
 
   # Health Status
   pi_health_status = "OK"
