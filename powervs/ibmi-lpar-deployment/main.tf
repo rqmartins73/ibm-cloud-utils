@@ -58,7 +58,7 @@ data "ibm_pi_network" "subnet" {
   provider = ibm.powervs
   
   pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace.guid
-  pi_network_id        = var.subnet_name
+  pi_network_name      = var.subnet_name
 }
 
 # Get PowerVS SSH key
@@ -66,7 +66,7 @@ data "ibm_pi_key" "ssh_key" {
   provider = ibm.powervs
   
   pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace.guid
-  name                 = var.ssh_key_name
+  pi_key_name          = var.ssh_key_name
 }
 
 # Note: IBM i images must be specified by ID in variables
