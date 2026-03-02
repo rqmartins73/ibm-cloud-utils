@@ -58,7 +58,7 @@ data "ibm_pi_network" "subnet" {
   provider = ibm.powervs
   
   pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace.guid
-  pi_network_name      = var.subnet_name
+  pi_network_id        = var.subnet_name
 }
 
 # Get PowerVS SSH key
@@ -66,7 +66,7 @@ data "ibm_pi_key" "ssh_key" {
   provider = ibm.powervs
   
   pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace.guid
-  pi_key_name          = var.ssh_key_name
+  name                 = var.ssh_key_name
 }
 
 # Note: IBM i images must be specified by ID in variables
@@ -90,8 +90,9 @@ resource "ibm_pi_instance" "ibmi_lpar" {
   # Deployment Type - VMNoStorage for empty LPAR
   pi_deployment_type = "VMNoStorage"
 
-  # Image Configuration - IBMI-EMPTY for empty LPAR
-  pi_image_id = var.image_id
+  # Image Configuration - Use pi_image_name for VMNoStorage deployment
+  # For VMNoStorage, use image names like "IBMI-EMPTY", "AIX-EMPTY", etc.
+  pi_image_name = var.image_id
 
   # Network Configuration
   pi_network {

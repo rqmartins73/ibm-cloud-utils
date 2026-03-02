@@ -185,6 +185,6 @@ output "connection_info" {
   value = {
     ssh_command = "ssh -i <your-private-key> qsecofr@${ibm_pi_instance.ibmi_lpar.pi_network[0].ip_address}"
     ip_address  = ibm_pi_instance.ibmi_lpar.pi_network[0].ip_address
-    note        = "Use the SSH key associated with '${data.ibm_pi_key.ssh_key.pi_key_name}' to connect"
+    note        = "Use the SSH key associated with '${data.ibm_pi_key.ssh_key.name}' to connect"
   }
 }
