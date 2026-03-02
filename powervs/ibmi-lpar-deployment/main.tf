@@ -69,12 +69,8 @@ data "ibm_pi_key" "ssh_key" {
   pi_key_name          = var.ssh_key_name
 }
 
-# Get available IBM i images
-data "ibm_pi_images" "ibmi_images" {
-  provider = ibm.powervs
-  
-  pi_cloud_instance_id = data.ibm_resource_instance.powervs_workspace.guid
-}
+# Note: IBM i images must be specified by ID in variables
+# Use 'ibmcloud pi images' command to list available images in your workspace
 
 ##############################################################################
 # IBM i LPAR Instance
@@ -92,7 +88,8 @@ resource "ibm_pi_instance" "ibmi_lpar" {
   pi_sys_type          = var.sys_type
 
   # Image Configuration - IBM i stock image
-  pi_image_id = var.image_id != null ? var.image_id : data.ibm_pi_images.ibmi_images.image_info[0].id
+  # Note: image_id must be provided as there's no reliable way to auto-select IBM i images
+  pi_image_id = var.image_id
 
   # Network Configuration
   pi_network {

@@ -102,9 +102,10 @@ storage_pool = ""
 # IBM i Image Configuration (Optional)
 ##############################################################################
 
-# IBM i stock image ID (leave empty to use the first available IBM i image)
-# To list available images, use: ibmcloud pi images --json
-image_id = null
+# IBM i stock image ID (required)
+# To list available images, use: ibmcloud pi images --workspace-id <workspace-guid>
+# Example: image_id = "12345678-1234-1234-1234-123456789abc"
+image_id = "YOUR_IBM_i_IMAGE_ID_HERE"
 
 ##############################################################################
 # IBM i License Configuration (Optional)

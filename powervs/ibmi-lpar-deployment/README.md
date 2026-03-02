@@ -107,7 +107,21 @@ Before deploying, ensure you have:
 cd CRAIG/ibm-cloud-utils/powervs/ibmi-lpar-deployment
 ```
 
-### Step 2: Configure Variables
+### Step 2: Get IBM i Image ID
+
+Before configuring variables, you need to obtain the IBM i image ID from your PowerVS workspace:
+
+```bash
+# List available IBM i images
+ibmcloud pi images --workspace-id <your-workspace-guid>
+
+# Or use the IBM Cloud CLI to get the workspace GUID first
+ibmcloud resource service-instances --service-name power-iaas
+```
+
+Look for IBM i images in the output (e.g., "IBMi-75-05", "IBMi-74-09") and note the image ID.
+
+### Step 3: Configure Variables
 
 Copy the template and fill in your values:
 
@@ -131,6 +145,9 @@ processors              = 2
 memory                  = 16
 sys_type                = "s922"
 
+# IBM i Image ID (REQUIRED - obtained from step 2)
+image_id = "12345678-1234-1234-1234-123456789abc"
+
 # Optional: Static IP (leave empty for DHCP)
 ip_address = ""
 
@@ -140,13 +157,13 @@ enable_power_ha_license      = false
 enable_rational_dev_studio_license = false
 ```
 
-### Step 3: Initialize Terraform
+### Step 4: Initialize Terraform
 
 ```bash
 terraform init
 ```
 
-### Step 4: Review Deployment Plan
+### Step 5: Review Deployment Plan
 
 ```bash
 terraform plan
@@ -154,7 +171,7 @@ terraform plan
 
 Review the planned changes carefully before proceeding.
 
-### Step 5: Deploy
+### Step 6: Deploy
 
 ```bash
 terraform apply
@@ -162,7 +179,7 @@ terraform apply
 
 Type `yes` when prompted to confirm the deployment.
 
-### Step 6: Access Deployment Information
+### Step 7: Access Deployment Information
 
 After successful deployment, view the outputs:
 

@@ -194,9 +194,13 @@ variable "storage_pool" {
 ##############################################################################
 
 variable "image_id" {
-  description = "ID of the IBM i stock image to use (optional - leave empty to use the first available IBM i image)"
+  description = "ID of the IBM i stock image to use (required - use 'ibmcloud pi images' to list available images)"
   type        = string
-  default     = null
+  
+  validation {
+    condition     = var.image_id != null && var.image_id != ""
+    error_message = "Image ID is required. Use 'ibmcloud pi images --workspace-id <workspace-guid>' to list available IBM i images."
+  }
 }
 
 ##############################################################################

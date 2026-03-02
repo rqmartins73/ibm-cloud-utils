@@ -145,7 +145,7 @@ output "powervs_zone" {
 
 output "ssh_key_name" {
   description = "Name of the SSH key used for the IBM i LPAR"
-  value       = data.ibm_pi_key.ssh_key.pi_key_name
+  value       = data.ibm_pi_key.ssh_key.name
 }
 
 ##############################################################################
