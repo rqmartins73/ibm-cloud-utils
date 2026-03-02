@@ -84,6 +84,10 @@ resource "ibm_pi_instance" "ibmi_lpar" {
   pi_proc_type         = var.proc_type
   pi_sys_type          = var.sys_type
 
+  # Deployment Type - VMNoStorage for empty LPAR
+  # This is required when using IBMI-EMPTY image to avoid storage provider errors
+  pi_deployment_type = "VMNoStorage"
+
   # Image Configuration
   # Use IBMI-EMPTY UUID for empty IBM i LPAR
   pi_image_id = var.image_id
