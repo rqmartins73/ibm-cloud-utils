@@ -359,13 +359,15 @@ resource "ibm_pi_network" "additional_subnets" {
     "subnet_${idx + 4}" => subnet
   } : {}
 
+  # Use PowerVS-specific provider with zone configuration
+  provider = ibm.powervs
+
   pi_cloud_instance_id = module.powervs_workspace[0].pi_workspace_guid
   pi_network_name      = "${var.prefix}-${each.value.name}"
   pi_cidr              = each.value.cidr
   pi_network_type      = "vlan"
   pi_network_mtu       = 9000
-  pi_advertise         = "enable"
-  pi_arp_broadcast     = "disable"
+  pi_dns               = []
   pi_user_tags         = var.tags
 
   depends_on = [module.powervs_workspace]
