@@ -348,6 +348,30 @@ module "powervs_workspace" {
 }
 
 ##############################################################################
+# Additional PowerVS Subnets (for subnets beyond the first 3)
+# The powervs-workspace module only supports 3 subnets, so we create
+# additional subnets directly using ibm_pi_network resource
+##############################################################################
+
+resource "ibm_pi_network" "additional_subnets" {
+  for_each = var.enable_powervs && length(var.powervs_subnets) > 3 ? {
+    for idx, subnet in slice(var.powervs_subnets, 3, length(var.powervs_subnets)) :
+    "subnet_${idx + 4}" => subnet
+  } : {}
+
+  pi_cloud_instance_id = module.powervs_workspace[0].pi_workspace_guid
+  pi_network_name      = "${var.prefix}-${each.value.name}"
+  pi_cidr              = each.value.cidr
+  pi_network_type      = "vlan"
+  pi_network_mtu       = 9000
+  pi_advertise         = "enable"
+  pi_arp_broadcast     = "disable"
+  pi_user_tags         = var.tags
+
+  depends_on = [module.powervs_workspace]
+}
+
+##############################################################################
 # PowerVS Instance Module Removed
 # This landing zone provides the infrastructure foundation only.
 # Users can deploy their own LPAR instances using the workspace created above.

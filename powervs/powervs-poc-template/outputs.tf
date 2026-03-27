@@ -136,29 +136,45 @@ output "powervs_zone" {
 
 output "powervs_subnets" {
   description = "List of PowerVS private subnets with their details"
-  value = var.enable_powervs ? {
-    subnet_1 = module.powervs_workspace[0].pi_private_subnet_1
-    subnet_2 = module.powervs_workspace[0].pi_private_subnet_2
-    subnet_3 = module.powervs_workspace[0].pi_private_subnet_3
-  } : null
+  value = var.enable_powervs ? merge(
+    {
+      subnet_1 = module.powervs_workspace[0].pi_private_subnet_1
+      subnet_2 = module.powervs_workspace[0].pi_private_subnet_2
+      subnet_3 = module.powervs_workspace[0].pi_private_subnet_3
+    },
+    {
+      for key, subnet in ibm_pi_network.additional_subnets :
+      key => {
+        id   = subnet.network_id
+        name = subnet.pi_network_name
+        cidr = subnet.pi_cidr
+      }
+    }
+  ) : null
 }
 
 output "powervs_subnet_ids" {
   description = "List of PowerVS subnet IDs"
-  value = var.enable_powervs ? compact([
-    try(module.powervs_workspace[0].pi_private_subnet_1.id, null),
-    try(module.powervs_workspace[0].pi_private_subnet_2.id, null),
-    try(module.powervs_workspace[0].pi_private_subnet_3.id, null)
-  ]) : []
+  value = var.enable_powervs ? concat(
+    compact([
+      try(module.powervs_workspace[0].pi_private_subnet_1.id, null),
+      try(module.powervs_workspace[0].pi_private_subnet_2.id, null),
+      try(module.powervs_workspace[0].pi_private_subnet_3.id, null)
+    ]),
+    [for subnet in ibm_pi_network.additional_subnets : subnet.network_id]
+  ) : []
 }
 
 output "powervs_subnet_names" {
   description = "List of PowerVS subnet names"
-  value = var.enable_powervs ? compact([
-    try(module.powervs_workspace[0].pi_private_subnet_1.name, null),
-    try(module.powervs_workspace[0].pi_private_subnet_2.name, null),
-    try(module.powervs_workspace[0].pi_private_subnet_3.name, null)
-  ]) : []
+  value = var.enable_powervs ? concat(
+    compact([
+      try(module.powervs_workspace[0].pi_private_subnet_1.name, null),
+      try(module.powervs_workspace[0].pi_private_subnet_2.name, null),
+      try(module.powervs_workspace[0].pi_private_subnet_3.name, null)
+    ]),
+    [for subnet in ibm_pi_network.additional_subnets : subnet.pi_network_name]
+  ) : []
 }
 
 ##############################################################################
