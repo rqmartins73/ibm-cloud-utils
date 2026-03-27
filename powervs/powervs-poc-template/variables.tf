@@ -280,8 +280,8 @@ variable "ipsec_pfs" {
   default     = "group_14"
 
   validation {
-    condition     = contains(["disabled", "group_2", "group_5", "group_14", "group_15", "group_16", "group_17", "group_18", "group_19", "group_20", "group_21", "group_22", "group_23", "group_24", "group_31"], var.ipsec_pfs)
-    error_message = "IPSec PFS must be one of: disabled, group_2, group_5, group_14-24, or group_31."
+    condition     = contains(["disabled", "group_14", "group_15", "group_16", "group_17", "group_18", "group_19", "group_20", "group_21", "group_22", "group_23", "group_24", "group_31"], var.ipsec_pfs)
+    error_message = "IPSec PFS must be one of: disabled, group_14-24, or group_31."
   }
 }
 
