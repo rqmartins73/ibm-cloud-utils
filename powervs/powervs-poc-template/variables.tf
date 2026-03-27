@@ -452,8 +452,8 @@ variable "powervs_subnets" {
   ]
 
   validation {
-    condition     = length(var.powervs_subnets) > 0 && length(var.powervs_subnets) <= 3
-    error_message = "You must define between 1 and 3 PowerVS subnets."
+    condition     = length(var.powervs_subnets) > 0
+    error_message = "You must define at least 1 PowerVS subnet."
   }
 
   validation {
