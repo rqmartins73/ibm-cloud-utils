@@ -176,8 +176,8 @@ variable "vpn_connections" {
   default = []
 
   validation {
-    condition     = alltrue([for conn in var.vpn_connections : length(conn.preshared_key) >= 32])
-    error_message = "VPN preshared keys must be at least 32 characters for security."
+    condition     = alltrue([for conn in var.vpn_connections : length(conn.preshared_key) >= 20])
+    error_message = "VPN preshared keys must be at least 20 characters for security."
   }
 }
 
