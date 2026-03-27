@@ -366,9 +366,13 @@ resource "ibm_pi_network" "additional_subnets" {
   pi_network_name      = "${var.prefix}-${each.value.name}"
   pi_cidr              = each.value.cidr
   pi_network_type      = "vlan"
-  pi_network_mtu       = 9000
-  pi_dns               = []
-  pi_user_tags         = var.tags
+  pi_gateway           = cidrhost(each.value.cidr, 1)
+  pi_ipaddress_range {
+    starting_ip_address = cidrhost(each.value.cidr, 2)
+    ending_ip_address   = cidrhost(each.value.cidr, -2)
+  }
+  pi_dns       = []
+  pi_user_tags = var.tags
 
   depends_on = [module.powervs_workspace]
 }
