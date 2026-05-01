@@ -149,3 +149,9 @@ These guides complement the utilities in this repository by providing context an
 **📝 Contributing**: This repository is actively maintained and expanded. Tools and utilities are added based on common use cases and client requirements.
 
 **🔒 Security**: Never commit sensitive information (API keys, passwords, etc.) to version control. Use environment variables, secret management tools, or `.tfvars` files that are excluded from Git.
+---
+## Author
+
+Ricardo Martins  
+IBM Power Technical Leader @ Blue Chip Portugal  
+IBM Champion 2025 | 2026
